@@ -6,6 +6,8 @@ import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class GraphQLDataFetchers {
     @Autowired
@@ -17,6 +19,10 @@ public class GraphQLDataFetchers {
 
             return todoRepo.findById(todoId).orElse(null);
         };
+    }
+
+    public DataFetcher<List<Todo>> getAllTodos() {
+        return dataFetchingEnvironment -> todoRepo.findAll();
     }
 
     public DataFetcher<Todo> createTodoDataFetcher() {

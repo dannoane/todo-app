@@ -1,5 +1,6 @@
 type Query {
     todoById(id: ID): Todo
+    allTodos: [Todo]
 }
 
 type Mutation {

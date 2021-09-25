@@ -1,0 +1,9 @@
+type Query {
+    todoById(id: ID): Todo
+}
+
+type Todo {
+    id: ID
+    text: String
+    completed: Boolean
+}

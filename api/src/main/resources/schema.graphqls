@@ -2,6 +2,10 @@ type Query {
     todoById(id: ID): Todo
 }
 
+type Mutation {
+    createTodo(text: String): Todo
+}
+
 type Todo {
     id: ID
     text: String

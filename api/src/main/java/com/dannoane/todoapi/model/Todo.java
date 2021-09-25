@@ -11,4 +11,9 @@ public class Todo {
     public String id;
     public String text;
     public boolean completed;
+
+    public Todo(String text) {
+        this.text = text;
+        completed = false;
+    }
 }

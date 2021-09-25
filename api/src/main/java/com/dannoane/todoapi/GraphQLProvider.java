@@ -46,6 +46,8 @@ public class GraphQLProvider {
         return RuntimeWiring.newRuntimeWiring()
                 .type(TypeRuntimeWiring.newTypeWiring("Query")
                         .dataFetcher("todoById", graphQLDataFetchers.getTodoByIdDataFetcher()))
+                .type(TypeRuntimeWiring.newTypeWiring("Mutation")
+                        .dataFetcher("createTodo", graphQLDataFetchers.createTodoDataFetcher()))
                 .type(TypeRuntimeWiring.newTypeWiring("Todo"))
                 .build();
     }

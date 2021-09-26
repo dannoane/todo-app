@@ -4,7 +4,6 @@ import com.dannoane.todoapi.datafetcher.GraphQLDataFetchers;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import graphql.GraphQL;
-import graphql.schema.DataFetcher;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +45,10 @@ public class GraphQLProvider {
         return RuntimeWiring.newRuntimeWiring()
                 .type(TypeRuntimeWiring.newTypeWiring("Query")
                         .dataFetcher("todoById", graphQLDataFetchers.getTodoByIdDataFetcher())
-                        .dataFetcher("allTodos", graphQLDataFetchers.getAllTodos()))
+                        .dataFetcher("allTodos", graphQLDataFetchers.getAllTodosDataFetcher()))
                 .type(TypeRuntimeWiring.newTypeWiring("Mutation")
-                        .dataFetcher("createTodo", graphQLDataFetchers.createTodoDataFetcher()))
+                        .dataFetcher("createTodo", graphQLDataFetchers.createTodoDataFetcher())
+                        .dataFetcher("setTodoStatus", graphQLDataFetchers.setTodoStatusDataFetcher()))
                 .type(TypeRuntimeWiring.newTypeWiring("Todo"))
                 .build();
     }

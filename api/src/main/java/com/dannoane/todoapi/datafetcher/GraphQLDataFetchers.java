@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class GraphQLDataFetchers {
@@ -21,7 +22,7 @@ public class GraphQLDataFetchers {
         };
     }
 
-    public DataFetcher<List<Todo>> getAllTodos() {
+    public DataFetcher<List<Todo>> getAllTodosDataFetcher() {
         return dataFetchingEnvironment -> todoRepo.findAll();
     }
 
@@ -31,6 +32,19 @@ public class GraphQLDataFetchers {
             Todo todo = new Todo(text);
 
             return todoRepo.save(todo);
+        };
+    }
+
+    public DataFetcher<Todo> setTodoStatusDataFetcher() {
+        return dataFetchingEnvironment -> {
+            String id = dataFetchingEnvironment.getArgument("id");
+            boolean completed = dataFetchingEnvironment.getArgument("completed");
+
+            Optional<Todo> todo = todoRepo.findById(id);
+            todo.ifPresent(value -> value.completed = completed);
+            todo.ifPresent(value -> todoRepo.save(value));
+
+            return todo.orElse(null);
         };
     }
 }

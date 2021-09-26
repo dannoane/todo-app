@@ -5,6 +5,7 @@ type Query {
 
 type Mutation {
     createTodo(text: String): Todo
+    setTodoStatus(id: ID, completed: Boolean): Todo
 }
 
 type Todo {

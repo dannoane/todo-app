@@ -1,14 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
+import { ApolloProvider } from "@apollo/client";
+import { client } from './graph/ApolloClient';
+import CssBaseline from '@mui/material/CssBaseline';
+import { GlobalTheme } from './GlobalTheme';
+import { ThemeProvider } from '@mui/system';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <ApolloProvider client={client}>
+            <ThemeProvider theme={GlobalTheme}>
+                <React.Fragment>
+                    <CssBaseline />
+                    <App />
+                </React.Fragment>
+            </ThemeProvider>
+        </ApolloProvider>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -47,4 +47,14 @@ public class GraphQLDataFetchers {
             return todo.orElse(null);
         };
     }
+
+    public DataFetcher<Todo> deleteTodo() {
+        return dataFetchingEnvironment -> {
+            String id = dataFetchingEnvironment.getArgument("id");
+            Optional<Todo> todo = todoRepo.findById(id);
+            todo.ifPresent(value -> todoRepo.deleteById(id));
+
+            return todo.orElse(null);
+        };
+    }
 }

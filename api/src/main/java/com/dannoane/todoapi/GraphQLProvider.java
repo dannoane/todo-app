@@ -48,7 +48,8 @@ public class GraphQLProvider {
                         .dataFetcher("allTodos", graphQLDataFetchers.getAllTodosDataFetcher()))
                 .type(TypeRuntimeWiring.newTypeWiring("Mutation")
                         .dataFetcher("createTodo", graphQLDataFetchers.createTodoDataFetcher())
-                        .dataFetcher("setTodoStatus", graphQLDataFetchers.setTodoStatusDataFetcher()))
+                        .dataFetcher("setTodoStatus", graphQLDataFetchers.setTodoStatusDataFetcher())
+                        .dataFetcher("deleteTodo", graphQLDataFetchers.deleteTodo()))
                 .type(TypeRuntimeWiring.newTypeWiring("Todo"))
                 .build();
     }

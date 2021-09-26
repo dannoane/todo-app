@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Paper, Stack } from '@mui/material';
+import { Container, Paper } from '@mui/material';
 import { useQuery } from '@apollo/client';
 import { Todo, FETCH_ALL_TODOS } from '../graph/Todo';
 import { Todo as TodoComponent } from './Todo';
@@ -18,7 +18,7 @@ export default function App() {
                 minWidth: '500px'
             }}>
                 {allTodos.map((todo: Todo) => (
-                    <TodoComponent todo={todo} />
+                    <TodoComponent key={todo.id.toString()} todo={todo} />
                 ))}
             </Paper>
         </Container>

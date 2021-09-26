@@ -15,3 +15,13 @@ export const FETCH_ALL_TODOS = gql`
         }
     }
 `;
+
+export const SET_TODO_STATUS = gql`
+mutation setTodoStatus($id: ID!, $completed: Boolean!) {
+    setTodoStatus(id: $id, completed: $completed) {
+      id
+      text
+      completed
+    }
+  }
+`;

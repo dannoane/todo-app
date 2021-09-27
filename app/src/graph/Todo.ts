@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export interface Todo {
-    id: String;
-    text: String;
+    id: string;
+    text: string;
     completed: boolean;
 }
 
@@ -32,6 +32,14 @@ export const SET_TODO_STATUS = gql`
         id
         text
         completed
+        }
+    }
+`;
+
+export const DELETE_TODO = gql`
+    mutation deleteTodo($id: ID!) {
+        deleteTodo(id: $id) {
+            id
         }
     }
 `;

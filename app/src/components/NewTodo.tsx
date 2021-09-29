@@ -47,7 +47,6 @@ const NewTodo: FunctionComponent = () => {
 
     return (
         <Paper elevation={3} sx={{
-            margin: '5px',
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',

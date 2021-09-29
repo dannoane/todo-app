@@ -28,7 +28,7 @@ const Todo: FunctionComponent<TodoProps> = ({ todo }) => {
 
     return (
         <Paper elevation={3} sx={{
-            margin: '5px',
+            marginBottom: '15px',
         }}>
             <Card onMouseOver={() => setDeleteHidden(false)} onMouseLeave={() => setDeleteHidden(true)} sx={{
                 display: 'flex',
@@ -42,6 +42,7 @@ const Todo: FunctionComponent<TodoProps> = ({ todo }) => {
                     : (<IconButton aria-label="delete todo" hidden={isDeleteHidden} onClick={() => deleteTodo({ variables: { id: todo.id } })} sx={{
                             marginLeft: 'auto',
                             marginRight: 0,
+                            color: '#000000',
                         }}>
                             <ClearIcon />
                         </IconButton>)

@@ -12,12 +12,13 @@ export default function App() {
         <Container maxWidth='md' sx={{ background: 'blue' }}>
             <Paper elevation={3} sx={{
                 margin: 0,
-                padding: '10px',
+                padding: '20px',
                 position: 'absolute',
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                minWidth: '500px'
+                minWidth: '500px',
+                backgroundColor: '#ffea00',
             }}>
                 {allTodos.map((todo: Todo) => (
                     <TodoComponent key={todo.id.toString()} todo={todo} />

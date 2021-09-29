@@ -28,6 +28,23 @@ const NewTodo: FunctionComponent = () => {
         }
     });
 
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            handleCreateTodo();
+        }
+    };
+
+    const handleCreateTodo = () => {
+        if (text === '') {
+            return;
+        }
+
+        createTodo({ variables: { text } });
+        setText('');
+    };
+
+    const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value);
+
     return (
         <Paper elevation={3} sx={{
             margin: '5px',
@@ -35,11 +52,12 @@ const NewTodo: FunctionComponent = () => {
             flexDirection: 'row',
             alignItems: 'center',
         }}>
-            <IconButton color="primary" aria-label="add a todo" onClick={() => { createTodo({ variables: { text } }); setText(''); }} >
+            <IconButton color="primary" aria-label="add a todo" onClick={handleCreateTodo} >
                 <AddIcon />
             </IconButton>
             <Input disableUnderline={true} fullWidth={true} value={text}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value)} />
+                onChange={handleTextChange}
+                onKeyDown={handleKeyDown} />
         </Paper>
     );
 }

@@ -1,5 +1,5 @@
 import React, { useState, FunctionComponent } from 'react';
-import { Paper, IconButton, Input } from '@mui/material';
+import { Card, IconButton, Input } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useMutation, gql } from '@apollo/client';
 import { Todo as TodoType, CREATE_TODO } from '../graph/Todo';
@@ -46,10 +46,11 @@ const NewTodo: FunctionComponent = () => {
     const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value);
 
     return (
-        <Paper elevation={3} sx={{
+        <Card elevation={3} sx={{
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
+            borderRadius: '10px',
         }}>
             <IconButton color="primary" aria-label="add a todo" onClick={handleCreateTodo} >
                 <AddIcon />
@@ -57,7 +58,7 @@ const NewTodo: FunctionComponent = () => {
             <Input disableUnderline={true} fullWidth={true} value={text}
                 onChange={handleTextChange}
                 onKeyDown={handleKeyDown} />
-        </Paper>
+        </Card>
     );
 }
 

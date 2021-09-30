@@ -23,7 +23,7 @@ export default function App() {
             {allTodos.map((todo: Todo) => (
                 <TodoComponent key={todo.id.toString()} todo={todo} />
             ))}
-            <Divider sx={{ marginTop: '15px', marginBottom: '15px', borderWidth: '1px', borderColor: '#000000', borderRadius: '1px', backgroundColor: '#000000' }} />
+            {allTodos.length > 0 && <Divider sx={{ marginTop: '15px', marginBottom: '15px', borderWidth: '1px', borderColor: '#000000', borderRadius: '1px', backgroundColor: '#000000' }} />}
             <NewTodo />
         </Card>
     );

@@ -1,14 +1,16 @@
 import React, { useState, FunctionComponent } from 'react';
-import { Card, Checkbox, Typography, IconButton } from '@mui/material';
+import { Card, Checkbox, ClickAwayListener, TextField, IconButton } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import { StoreObject, useMutation } from '@apollo/client';
-import { Todo as TodoType, SET_TODO_STATUS, DELETE_TODO } from '../graph/Todo';
+import { Todo as TodoType, SET_TODO_STATUS, DELETE_TODO, UPDATE_TODO_TEXT } from '../graph/Todo';
 
 interface TodoProps {
     todo: TodoType;
 }
 
 const Todo: FunctionComponent<TodoProps> = ({ todo }) => {
+    const [text, setText] = useState(todo.text);
+    const [editable, setEditable] = useState(false);
     const [isDeleteHidden, setDeleteHidden] = useState(true);
 
     const [setTodoStatus, { loading: todoStatusLoading, error: todoStatusError }] = useMutation(SET_TODO_STATUS);
@@ -25,6 +27,26 @@ const Todo: FunctionComponent<TodoProps> = ({ todo }) => {
             cache.evict({ id: `Todo:${todo.id}`, broadcast: true });
         }
     });
+    const [updateTodoText, { loading: updateTodoLoading, error: updateTodoError }] = useMutation(UPDATE_TODO_TEXT);
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            handleUpdateTodo();
+        }
+    };
+
+    const handleClickAway = () => {
+        setEditable(false);
+        handleUpdateTodo();
+    }
+
+    const handleUpdateTodo = () => {
+        if (text === '') {
+            return;
+        }
+
+        updateTodoText({ variables: { id: todo.id, text } });
+    };
 
     return (
         <Card elevation={3} onMouseOver={() => setDeleteHidden(false)} onMouseLeave={() => setDeleteHidden(true)} sx={{
@@ -35,10 +57,22 @@ const Todo: FunctionComponent<TodoProps> = ({ todo }) => {
             borderRadius: '10px',
         }}>
             <Checkbox checked={todo.completed} onChange={() => setTodoStatus({ variables: { id: todo.id, completed: !todo.completed } })} />
-            <Typography align="left" variant="body1">{todo.text}</Typography>
-            {isDeleteHidden
-                ? (<></>)
-                : (<IconButton aria-label="delete todo" hidden={isDeleteHidden} onClick={() => deleteTodo({ variables: { id: todo.id } })} sx={{
+            <ClickAwayListener onClickAway={handleClickAway}>
+                <TextField
+                    fullWidth={true}
+                    size={'small'}
+                    variant={'standard'}
+                    InputProps={{ disableUnderline: true }}
+                    inputProps={{ style: { padding: 0 } }}
+                    sx={{ padding: '0px' }}
+                    value={text}
+                    disabled={!editable}
+                    onDoubleClick={() => setEditable(true)}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value)}
+                    onKeyDown={handleKeyDown} />
+            </ClickAwayListener>
+            {!isDeleteHidden &&
+                (<IconButton aria-label="delete todo" hidden={isDeleteHidden} onClick={() => deleteTodo({ variables: { id: todo.id } })} sx={{
                     marginLeft: 'auto',
                     marginRight: 0,
                     color: '#000000',

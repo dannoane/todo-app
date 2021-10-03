@@ -3,6 +3,7 @@ import { Card, Checkbox, ClickAwayListener, TextField, IconButton } from '@mui/m
 import ClearIcon from '@mui/icons-material/Clear';
 import { StoreObject, useMutation } from '@apollo/client';
 import { Todo as TodoType, SET_TODO_STATUS, DELETE_TODO, UPDATE_TODO_TEXT } from '../graph/Todo';
+import { graphQLStateManager } from '../graph/GraphQLOpsStateManager';
 
 interface TodoProps {
     todo: TodoType;
@@ -28,6 +29,10 @@ const Todo: FunctionComponent<TodoProps> = ({ todo }) => {
         }
     });
     const [updateTodoText, { loading: updateTodoLoading, error: updateTodoError }] = useMutation(UPDATE_TODO_TEXT);
+
+    graphQLStateManager(todoStatusLoading, todoStatusError, { loading: 'Updating todo status', error: 'Failed to update todo status' });
+    graphQLStateManager(deleteTodoLoading, deleteTodoError, { loading: 'Deleting todo', error: 'Failed to delete todo' });
+    graphQLStateManager(updateTodoLoading, updateTodoError, { loading: 'Updating todo text', error: 'Failed to update todo text' });
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {

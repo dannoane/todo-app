@@ -7,6 +7,9 @@ import { client } from './graph/ApolloClient';
 import CssBaseline from '@mui/material/CssBaseline';
 import { GlobalTheme } from './GlobalTheme';
 import { ThemeProvider } from '@mui/system';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.render(
     <React.StrictMode>
@@ -18,6 +21,14 @@ ReactDOM.render(
                 </React.Fragment>
             </ThemeProvider>
         </ApolloProvider>
+        <ToastContainer
+            position="top-right"
+            autoClose={1500}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            rtl={false}
+        />
     </React.StrictMode>,
     document.getElementById('root')
 );

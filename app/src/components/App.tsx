@@ -4,9 +4,12 @@ import { useQuery } from '@apollo/client';
 import { Todo, FETCH_ALL_TODOS } from '../graph/Todo';
 import { Todo as TodoComponent } from './Todo';
 import { NewTodo } from './NewTodo';
+import { graphQLStateManager } from '../graph/GraphQLOpsStateManager';
 
 export default function App() {
     const { loading, error, data: { allTodos = [] } = {} } = useQuery(FETCH_ALL_TODOS);
+
+    graphQLStateManager(loading, error, { loading: 'Loading todos', error: 'Failed to load todos' });
 
     return (
         <Card elevation={3} sx={{

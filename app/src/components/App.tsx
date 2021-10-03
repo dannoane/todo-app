@@ -11,6 +11,9 @@ export default function App() {
 
     graphQLStateManager(loading, error, { loading: 'Loading todos', error: 'Failed to load todos' });
 
+    const completedTodos = [...allTodos.filter((todo: Todo) => todo.completed)],
+        todos = [...allTodos.filter((todo: Todo) => !todo.completed)];
+
     return (
         <Card elevation={3} sx={{
             margin: 0,
@@ -23,7 +26,10 @@ export default function App() {
             backgroundColor: '#ffea00',
             borderRadius: '20px',
         }}>
-            {allTodos.map((todo: Todo) => (
+            {todos.map((todo: Todo) => (
+                <TodoComponent key={todo.id.toString()} todo={todo} />
+            ))}
+            {completedTodos.map((todo: Todo) => (
                 <TodoComponent key={todo.id.toString()} todo={todo} />
             ))}
             {allTodos.length > 0 && <Divider sx={{ marginTop: '15px', marginBottom: '15px', borderWidth: '1px', borderColor: '#000000', borderRadius: '1px', backgroundColor: '#000000' }} />}

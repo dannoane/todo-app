@@ -2,10 +2,12 @@ import React, { useState, FunctionComponent } from 'react';
 import { Card, IconButton, Input } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useMutation, gql } from '@apollo/client';
-import { Todo as TodoType, CREATE_TODO } from '../graph/Todo';
+import { CREATE_TODO } from '../graph/Todo';
+import { graphQLStateManager } from '../graph/GraphQLOpsStateManager';
 
 const NewTodo: FunctionComponent = () => {
     const [text, setText] = useState('');
+    
     const [createTodo, { loading, error }] = useMutation(CREATE_TODO, {
         update(cache, { data: { createTodo } }) {
             cache.modify({
@@ -27,6 +29,8 @@ const NewTodo: FunctionComponent = () => {
             });
         }
     });
+
+    graphQLStateManager(loading , error, { loading: 'Creating todo', error: 'Failed to create todo' });
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {

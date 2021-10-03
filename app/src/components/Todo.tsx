@@ -36,12 +36,14 @@ const Todo: FunctionComponent<TodoProps> = ({ todo }) => {
     };
 
     const handleClickAway = () => {
-        setEditable(false);
-        handleUpdateTodo();
+        if (editable) {
+            setEditable(false);
+            handleUpdateTodo();
+        }
     }
 
     const handleUpdateTodo = () => {
-        if (text === '') {
+        if (text === '' || text === todo.text) {
             return;
         }
 

@@ -18,12 +18,12 @@ public class GraphQLDataFetchers {
         return dataFetchingEnvironment -> {
             String todoId = dataFetchingEnvironment.getArgument("id");
 
-            return todoRepo.findById(todoId).orElse(null);
+            return todoRepo.mongoRepo().findById(todoId).orElse(null);
         };
     }
 
     public DataFetcher<List<Todo>> getAllTodosDataFetcher() {
-        return dataFetchingEnvironment -> todoRepo.findAll();
+        return dataFetchingEnvironment -> todoRepo.mongoRepo().findAll();
     }
 
     public DataFetcher<Todo> createTodoDataFetcher() {
@@ -31,7 +31,7 @@ public class GraphQLDataFetchers {
             String text = dataFetchingEnvironment.getArgument("text");
             Todo todo = new Todo(text);
 
-            return todoRepo.save(todo);
+            return todoRepo.mongoRepo().save(todo);
         };
     }
 
@@ -40,9 +40,7 @@ public class GraphQLDataFetchers {
             String id = dataFetchingEnvironment.getArgument("id");
             boolean completed = dataFetchingEnvironment.getArgument("completed");
 
-            Optional<Todo> todo = todoRepo.findById(id);
-            todo.ifPresent(value -> value.completed = completed);
-            todo.ifPresent(value -> todoRepo.save(value));
+            Optional<Todo> todo = todoRepo.updateStatus(id, completed);
 
             return todo.orElse(null);
         };
@@ -51,8 +49,8 @@ public class GraphQLDataFetchers {
     public DataFetcher<Todo> deleteTodoDataFetcher() {
         return dataFetchingEnvironment -> {
             String id = dataFetchingEnvironment.getArgument("id");
-            Optional<Todo> todo = todoRepo.findById(id);
-            todo.ifPresent(value -> todoRepo.deleteById(id));
+
+            Optional<Todo> todo = todoRepo.deleteTodo(id);
 
             return todo.orElse(null);
         };
@@ -63,9 +61,7 @@ public class GraphQLDataFetchers {
             String id = dataFetchingEnvironment.getArgument("id");
             String text = dataFetchingEnvironment.getArgument("text");
 
-            Optional<Todo> todo = todoRepo.findById(id);
-            todo.ifPresent(value -> value.text = text);
-            todo.ifPresent(value -> todoRepo.save(value));
+            Optional<Todo> todo = todoRepo.updateText(id, text);
 
             return todo.orElse(null);
         };

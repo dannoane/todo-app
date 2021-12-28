@@ -1,7 +1,7 @@
 import React, { useState, FunctionComponent } from 'react';
 import { Card, Checkbox, ClickAwayListener, TextField, IconButton, Tooltip } from '@mui/material';
 import Zoom from '@mui/material/Zoom';
-import ClearIcon from '@mui/icons-material/Clear';
+import { KeyboardArrowDown, KeyboardArrowUp, DeleteForever } from '@mui/icons-material';
 import { StoreObject, useMutation } from '@apollo/client';
 import { Todo as TodoType, SET_TODO_STATUS, DELETE_TODO, UPDATE_TODO_TEXT } from '../graph/Todo';
 import { graphQLStateManager } from '../graph/GraphQLOpsStateManager';
@@ -14,7 +14,7 @@ const Todo: FunctionComponent<TodoProps> = ({ todo }) => {
     const [text, setText] = useState(todo.text);
     const [editable, setEditable] = useState(false);
     const [isDeleteHidden, setDeleteHidden] = useState(true);
-    const [tooltipOpened, setTooltipOpened] = React.useState(false);
+    const [tooltipOpened, setTooltipOpened] = useState(false);
 
     const [setTodoStatus, { loading: todoStatusLoading, error: todoStatusError }] = useMutation(SET_TODO_STATUS);
     const [deleteTodo, { loading: deleteTodoLoading, error: deleteTodoError }] = useMutation(DELETE_TODO, {
@@ -76,6 +76,7 @@ const Todo: FunctionComponent<TodoProps> = ({ todo }) => {
             borderRadius: '10px',
         }}>
             <Checkbox checked={todo.completed} onChange={() => setTodoStatus({ variables: { id: todo.id, completed: !todo.completed } })} />
+            
             <ClickAwayListener onClickAway={handleClickAway}>
                 <Tooltip open={tooltipOpened}
                     onClose={handleClose}
@@ -96,14 +97,32 @@ const Todo: FunctionComponent<TodoProps> = ({ todo }) => {
                         onKeyDown={handleKeyDown} />
                 </Tooltip>
             </ClickAwayListener>
+
             {!isDeleteHidden &&
-                (<IconButton aria-label="delete todo" hidden={isDeleteHidden} onClick={() => deleteTodo({ variables: { id: todo.id } })} sx={{
-                    marginLeft: 'auto',
-                    marginRight: 0,
-                    color: '#000000',
-                }}>
-                    <ClearIcon />
-                </IconButton>)
+                (<>
+                    <IconButton sx={{
+                        color: '#000000',
+                        padding: '2px'
+                    }}>
+                        <KeyboardArrowDown />
+                    </IconButton>
+        
+                    <IconButton sx={{
+                        color: '#000000',
+                        padding: '2px'
+                    }}>
+                        <KeyboardArrowUp />
+                    </IconButton>
+
+                    <IconButton aria-label="delete todo" onClick={() => deleteTodo({ variables: { id: todo.id } })} sx={{
+                        marginLeft: 'auto',
+                        marginRight: '5px',
+                        color: '#000000',
+                        padding: '2px',
+                    }}>
+                        <DeleteForever sx={{transform: 'scale(1)'}} />
+                    </IconButton>
+                </>)
             }
         </Card>
     );

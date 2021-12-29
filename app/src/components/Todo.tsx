@@ -3,7 +3,7 @@ import { Card, Checkbox, ClickAwayListener, TextField, IconButton, Tooltip } fro
 import Zoom from '@mui/material/Zoom';
 import { KeyboardArrowDown, KeyboardArrowUp, DeleteForever } from '@mui/icons-material';
 import { StoreObject, useMutation } from '@apollo/client';
-import { Todo as TodoType, SET_TODO_STATUS, DELETE_TODO, UPDATE_TODO_TEXT } from '../graph/Todo';
+import { Todo as TodoType, SET_TODO_STATUS, DELETE_TODO, UPDATE_TODO_TEXT, MOVE_TODO_UP, MOVE_TODO_DOWN } from '../graph/Todo';
 import { graphQLStateManager } from '../graph/GraphQLOpsStateManager';
 
 interface TodoProps {
@@ -33,10 +33,14 @@ const Todo: FunctionComponent<TodoProps> = ({ todo, isFirst = false, isLast = fa
         }
     });
     const [updateTodoText, { loading: updateTodoLoading, error: updateTodoError }] = useMutation(UPDATE_TODO_TEXT);
+    const [moveTodoUp, { loading: moveTodoUpLoading, error: moveTodoUpError }] = useMutation(MOVE_TODO_UP);
+    const [moveTodoDown, { loading: moveTodoDownLoading, error: moveTodoDownError }] = useMutation(MOVE_TODO_DOWN);
 
     graphQLStateManager(todoStatusLoading, todoStatusError, { loading: 'Updating todo status', error: 'Failed to update todo status' });
     graphQLStateManager(deleteTodoLoading, deleteTodoError, { loading: 'Deleting todo', error: 'Failed to delete todo' });
     graphQLStateManager(updateTodoLoading, updateTodoError, { loading: 'Updating todo text', error: 'Failed to update todo text' });
+    graphQLStateManager(moveTodoUpLoading, moveTodoUpError, { loading: 'Changing todo priority', error: 'Failed to change todo priority' });
+    graphQLStateManager(moveTodoDownLoading, moveTodoDownError, { loading: 'Changing todo priority', error: 'Failed to change todo priority' });
 
     const handleClose = () => {
         setTooltipOpened(false);
@@ -106,7 +110,7 @@ const Todo: FunctionComponent<TodoProps> = ({ todo, isFirst = false, isLast = fa
                         (<IconButton sx={{
                             color: '#000000',
                             padding: '2px'
-                        }}>
+                        }} onClick={() => moveTodoUp({ variables: { id: todo.id } })}>
                             <KeyboardArrowUp />
                         </IconButton>)
                     }
@@ -115,7 +119,7 @@ const Todo: FunctionComponent<TodoProps> = ({ todo, isFirst = false, isLast = fa
                         (<IconButton sx={{
                             color: '#000000',
                             padding: '2px'
-                        }}>
+                        }} onClick={() => moveTodoDown({ variables: { id: todo.id } })}>
                             <KeyboardArrowDown />
                         </IconButton>)
                     }
@@ -126,7 +130,7 @@ const Todo: FunctionComponent<TodoProps> = ({ todo, isFirst = false, isLast = fa
                         color: '#000000',
                         padding: '2px',
                     }}>
-                        <DeleteForever sx={{transform: 'scale(1)'}} />
+                        <DeleteForever />
                     </IconButton>
                 </>)
             }

@@ -11,8 +11,8 @@ export default function App() {
 
     graphQLStateManager(loading, error, { loading: 'Loading todos', error: 'Failed to load todos' });
 
-    const completedTodos = [...allTodos.filter((todo: Todo) => todo.completed)],
-        todos = [...allTodos.filter((todo: Todo) => !todo.completed)];
+    const completedTodos = [...allTodos.filter((todo: Todo) => todo.completed).sort((a: Todo, b: Todo) => a.order - b.order)],
+        todos = [...allTodos.filter((todo: Todo) => !todo.completed).sort((a: Todo, b: Todo) => a.order - b.order)];
 
     return (
         <Card elevation={3} sx={{

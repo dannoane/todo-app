@@ -4,6 +4,7 @@ export interface Todo {
     id: string;
     text: string;
     completed: boolean;
+    order: number;
 }
 
 export const FETCH_ALL_TODOS = gql`
@@ -12,6 +13,7 @@ export const FETCH_ALL_TODOS = gql`
             id
             text
             completed
+            order
         }
     }
 `;
@@ -22,6 +24,7 @@ export const CREATE_TODO = gql`
             id
             text
             completed
+            order
         }
     }
 `;
@@ -32,6 +35,7 @@ export const SET_TODO_STATUS = gql`
             id
             text
             completed
+            order
         }
     }
 `;
@@ -50,6 +54,30 @@ export const UPDATE_TODO_TEXT = gql`
             id
             text
             completed
+            order
         }
     }
 `;
+
+export const MOVE_TODO_UP = gql`
+    mutation moveTodoUp($id: ID!) {
+        moveTodoUp(id: $id) {
+            id
+            text
+            completed
+            order
+        }
+    }
+`;
+
+export const MOVE_TODO_DOWN = gql`
+    mutation moveTodoDown($id: ID!) {
+        moveTodoDown(id: $id) {
+            id
+            text
+            completed
+            order
+        }
+    }
+`;
+

@@ -26,8 +26,8 @@ export default function App() {
             backgroundColor: '#ffea00',
             borderRadius: '20px',
         }}>
-            {todos.map((todo: Todo) => (
-                <TodoComponent key={todo.id.toString()} todo={todo} />
+            {todos.map((todo: Todo, index: number) => (
+                <TodoComponent key={todo.id.toString()} todo={todo} isFirst={index === 0} isLast={index === todos.length - 1} />
             ))}
             {completedTodos.map((todo: Todo) => (
                 <TodoComponent key={todo.id.toString()} todo={todo} />

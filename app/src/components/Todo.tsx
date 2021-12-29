@@ -8,9 +8,11 @@ import { graphQLStateManager } from '../graph/GraphQLOpsStateManager';
 
 interface TodoProps {
     todo: TodoType;
+    isFirst?: Boolean;
+    isLast?: Boolean;
 }
 
-const Todo: FunctionComponent<TodoProps> = ({ todo }) => {
+const Todo: FunctionComponent<TodoProps> = ({ todo, isFirst = false, isLast = false }) => {
     const [text, setText] = useState(todo.text);
     const [editable, setEditable] = useState(false);
     const [isDeleteHidden, setDeleteHidden] = useState(true);
@@ -100,19 +102,23 @@ const Todo: FunctionComponent<TodoProps> = ({ todo }) => {
 
             {!isDeleteHidden &&
                 (<>
-                    <IconButton sx={{
-                        color: '#000000',
-                        padding: '2px'
-                    }}>
-                        <KeyboardArrowDown />
-                    </IconButton>
-        
-                    <IconButton sx={{
-                        color: '#000000',
-                        padding: '2px'
-                    }}>
-                        <KeyboardArrowUp />
-                    </IconButton>
+                    {!todo.completed && !isFirst &&
+                        (<IconButton sx={{
+                            color: '#000000',
+                            padding: '2px'
+                        }}>
+                            <KeyboardArrowUp />
+                        </IconButton>)
+                    }
+
+                    {!todo.completed && !isLast &&
+                        (<IconButton sx={{
+                            color: '#000000',
+                            padding: '2px'
+                        }}>
+                            <KeyboardArrowDown />
+                        </IconButton>)
+                    }
 
                     <IconButton aria-label="delete todo" onClick={() => deleteTodo({ variables: { id: todo.id } })} sx={{
                         marginLeft: 'auto',

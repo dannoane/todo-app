@@ -13,9 +13,11 @@ public class Todo {
     public String id;
     public String text;
     public boolean completed;
+    public int order;
 
-    public Todo(String text) {
+    public Todo(String text, int order) {
         this.text = text;
-        completed = false;
+        this.order = order;
+        this.completed = false;
     }
 }

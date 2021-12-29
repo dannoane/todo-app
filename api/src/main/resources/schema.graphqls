@@ -8,10 +8,13 @@ type Mutation {
     setTodoStatus(id: ID, completed: Boolean): Todo
     deleteTodo(id: ID): Todo
     updateTodoText(id: ID, text: String): Todo
+    moveTodoUp(id: ID): Todo
+    moveTodoDown(id: ID): Todo
 }
 
 type Todo {
     id: ID
     text: String
     completed: Boolean
+    order: Int
 }
